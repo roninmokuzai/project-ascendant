@@ -9,29 +9,36 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
     <style>
+        /* Base styles for the body, setting font and background color */
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #111827;
+            background-color: #111827; /* Dark charcoal background */
         }
+        /* Custom scrollbar styling for a sleek look */
         ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: #1f2937; }
-        ::-webkit-scrollbar-thumb { background: #4b5563; border-radius: 10px; }
-        ::-webkit-scrollbar-thumb:hover { background: #6b7280; }
+        ::-webkit-scrollbar-track { background: #1f2937; } /* Darker track */
+        ::-webkit-scrollbar-thumb { background: #4b5563; border-radius: 10px; } /* Muted grey thumb with rounded corners */
+        ::-webkit-scrollbar-thumb:hover { background: #6b7280; } /* Lighter grey on hover */
+        /* Neon glow effect for dynamic elements */
         .neon-glow-cyan { box-shadow: 0 0 5px rgba(6, 182, 212, 0.7), 0 0 10px rgba(6, 182, 212, 0.5), 0 0 15px rgba(6, 182, 212, 0.3); }
+        /* Styling for rank tags on Gigs */
         .rank-tag { font-weight: 900; padding: 2px 8px; border-radius: 9999px; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; }
-        .rank-s { background-color: #ef4444; color: white; }
-        .rank-a { background-color: #f97316; color: white; }
-        .rank-b { background-color: #eab308; color: white; }
-        .rank-c { background-color: #22c55e; color: white; }
-        .rank-d { background-color: #3b82f6; color: white; }
-        .rank-e { background-color: #6b7280; color: white; }
+        /* Color classes for different ranks */
+        .rank-s { background-color: #ef4444; color: white; } /* Red */
+        .rank-a { background-color: #f97316; color: white; } /* Orange */
+        .rank-b { background-color: #eab308; color: white; } /* Yellow */
+        .rank-c { background-color: #22c55e; color: white; } /* Green */
+        .rank-d { background-color: #3b82f6; color: white; } /* Blue */
+        .rank-e { background-color: #6b7280; color: white; } /* Gray */
+        /* Modal backdrop for overlay effect */
         .modal-backdrop { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.75); z-index: 40; }
+        /* Modal positioning and styling */
         .modal { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 50; }
     </style>
 </head>
 <body class="text-gray-200">
 
-    <!-- Password Protection Overlay -->
+    <!-- Password Protection Overlay - Ensures dashboard access is restricted -->
     <div id="password-overlay" class="fixed inset-0 bg-gray-900 flex items-center justify-center z-50">
         <div class="w-full max-w-sm p-8 bg-gray-800 rounded-lg shadow-2xl border border-gray-700">
             <h1 class="text-2xl font-bold text-white text-center mb-2">PROJECT: ASCENDANT</h1>
@@ -47,52 +54,76 @@
         </div>
     </div>
 
-    <!-- Main Container (Initially Hidden) -->
+    <!-- Main Container - Holds all dashboard content, initially hidden -->
     <div id="main-content" class="min-h-screen p-4 sm:p-6 lg:p-8 hidden opacity-0">
         <div class="max-w-7xl mx-auto">
-            <!-- Header -->
+            <!-- Header Section -->
             <header class="mb-8">
                 <h1 class="text-2xl sm:text-3xl font-bold text-white tracking-wide">PROJECT: ASCENDANT</h1>
-                <p class="text-cyan-400">Jackie-TheGem v1.058 - Live System Interface</p>
+                <!-- Updated Jackie version and build -->
+                <p class="text-cyan-400">Jackie-TheGem v1.060 - The Prime Directive Build - Live System Interface</p>
             </header>
-            <!-- Main Dashboard Layout -->
+            <!-- Main Dashboard Layout - Uses a responsive grid for columns -->
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
-                <!-- Left Column -->
+                <!-- Left Column - Player Stats and Confidants -->
                 <aside class="lg:col-span-1 space-y-6 lg:space-y-8">
+                    <!-- Player Stats Section -->
                     <div id="player-stats" class="bg-gray-800 p-6 rounded-lg shadow-lg">
                         <h2 class="text-xl font-bold text-white mb-4 border-b border-gray-700 pb-2">RYLEE - PLAYER STATS</h2>
                         <div class="space-y-4">
                             <div>
                                 <div class="flex justify-between items-baseline mb-1">
-                                    <span class="font-semibold text-cyan-400">LEVEL 1</span>
-                                    <span class="text-sm font-mono text-gray-400"><span id="current-exp">250</span> / <span id="max-exp">1000</span> EXP</span>
+                                    <span class="font-semibold text-cyan-400">LEVEL <span id="player-level"></span></span>
+                                    <span class="text-sm font-mono text-gray-400"><span id="current-exp"></span> / <span id="max-exp"></span> EXP</span>
                                 </div>
                                 <div class="w-full bg-gray-700 rounded-full h-4">
-                                    <div id="exp-bar" class="bg-cyan-500 h-4 rounded-full transition-all duration-500 ease-in-out" style="width: 25%;"></div>
+                                    <div id="exp-bar" class="bg-cyan-500 h-4 rounded-full transition-all duration-500 ease-in-out" style="width: 0%;"></div>
                                 </div>
                                 <p class="text-xs text-center text-gray-500 mt-1">The Grindstone Curve</p>
                             </div>
+                            <!-- Core Stats will be rendered here by JavaScript -->
                             <div id="core-stats-container" class="space-y-3 pt-4"></div>
                         </div>
                     </div>
+                    <!-- Confidants Section -->
                     <div class="bg-gray-800 p-6 rounded-lg shadow-lg">
                         <h2 class="text-xl font-bold text-white mb-4 border-b border-gray-700 pb-2">CONFIDANTS</h2>
-                        <div class="space-y-3">
+                        <!-- Confidant data will be dynamically rendered here -->
+                        <div id="confidants-container" class="space-y-3">
+                            <!-- Example:
                             <div class="flex items-center justify-between"><span class="font-semibold">Savannah - Bond Confidant</span><span class="text-sm text-cyan-400 font-mono">Rank 5</span></div>
-                            <div class="flex items-center justify-between"><span class="font-semibold">Edgar - Training Confidant</span><span class="text-sm text-cyan-400 font-mono">Rank 6</span></div>
-                            <div class="flex items-center justify-between"><span class="font-semibold">Kru Somchai - Mentor Confidant</span><span class="text-sm text-cyan-400 font-mono">Rank 4</span></div>
+                            -->
+                        </div>
+                    </div>
+                    <!-- Current Glitch (Foot Injury) Section -->
+                    <div class="bg-gray-800 p-6 rounded-lg shadow-lg">
+                        <h2 class="text-xl font-bold text-white mb-4 border-b border-gray-700 pb-2">CURRENT GLITCH (CG)</h2>
+                        <div class="space-y-3 text-sm text-gray-300">
+                            <p><span class="font-semibold text-red-400">Status:</span> Right foot (top, slightly right, towards ankle) from checked roundhouse kick on Tuesday, May 27th, 2025.</p>
+                            <p><span class="font-semibold text-red-400">Pain Level:</span> Low (2/10), full weight bearing without limp.</p>
+                            <p><span class="font-semibold text-red-400">Self-Care:</span> Heat (initially), elevation, compression, wrapped.</p>
+                            <p><span class="font-semibold text-red-400">Medical Plan:</span> Dedicated appointment: Tuesday, June 10th, 2025, 7:00 AM CDT, at TISSA.</p>
+                            <p class="text-xs text-gray-500 mt-1">Caution paramount; pushing too soon could set back progress.</p>
+                        </div>
+                    </div>
+                     <!-- Work Schedule Section -->
+                     <div class="bg-gray-800 p-6 rounded-lg shadow-lg">
+                        <h2 class="text-xl font-bold text-white mb-4 border-b border-gray-700 pb-2">TOBACCO DEPOT WORK SCHEDULE</h2>
+                        <div id="work-schedule-container" class="space-y-2 text-sm">
+                            <!-- Schedule details populated by JS -->
                         </div>
                     </div>
                 </aside>
-                <!-- Right Column -->
+                <!-- Right Column - Gig Board -->
                 <main class="lg:col-span-2">
                     <div class="bg-gray-800 p-6 rounded-lg shadow-lg">
                         <h2 class="text-xl sm:text-2xl font-bold text-white mb-4">GIG BOARD</h2>
+                        <!-- Active Gigs will be rendered here by JavaScript -->
                         <div id="gig-board-container" class="space-y-6"></div>
                     </div>
                 </main>
             </div>
-            <!-- System Log -->
+            <!-- System Log Section -->
             <footer class="mt-8 bg-gray-800 p-4 rounded-lg shadow-lg">
                 <h3 class="text-lg font-semibold text-cyan-400 mb-2">SYSTEM LOG</h3>
                 <div id="system-log" class="text-sm text-gray-400 font-mono h-24 overflow-y-auto space-y-1"></div>
@@ -100,7 +131,7 @@
         </div>
     </div>
     
-    <!-- Stat Allocation Modal -->
+    <!-- Stat Allocation Modal - Hidden by default, appears on Gig completion -->
     <div id="stat-modal" class="hidden">
         <div class="modal-backdrop"></div>
         <div class="modal bg-gray-800 border border-cyan-500 rounded-lg shadow-2xl w-11/12 md:w-1/2 lg:w-1/3 p-6">
@@ -115,191 +146,410 @@
     </div>
 
     <script>
-    // FIX: Wait for the entire HTML document to be loaded and parsed before running any script.
-    document.addEventListener('DOMContentLoaded', (event) => {
+        // Ensure the entire HTML document is loaded before running any script to prevent errors.
+        document.addEventListener('DOMContentLoaded', (event) => {
 
-        // --- PASSWORD PROTECTION ---
-        const passwordOverlay = document.getElementById('password-overlay');
-        const mainContent = document.getElementById('main-content');
-        const passwordInput = document.getElementById('password-input');
-        const passwordSubmit = document.getElementById('password-submit');
-        const passwordError = document.getElementById('password-error');
+            // --- PASSWORD PROTECTION ---
+            const passwordOverlay = document.getElementById('password-overlay');
+            const mainContent = document.getElementById('main-content');
+            const passwordInput = document.getElementById('password-input');
+            const passwordSubmit = document.getElementById('password-submit');
+            const passwordError = document.getElementById('password-error');
 
-        // IMPORTANT: Change this password to your own secret passkey.
-        const correctPassword = "solo-leveling";
+            // IMPORTANT: Change this password to your own secret passkey.
+            // This is a client-side protection and not fully secure for sensitive data.
+            const correctPassword = "8963"; 
 
-        function checkPassword() {
-            const enteredPassword = passwordInput.value;
-            if (enteredPassword === correctPassword) {
-                passwordOverlay.classList.add('transition-opacity', 'duration-500', 'opacity-0');
-                setTimeout(() => {
-                    passwordOverlay.classList.add('hidden');
-                    mainContent.classList.remove('hidden');
-                    mainContent.classList.add('opacity-100'); // Class added for smooth transition
-                    initializeDashboard();
-                }, 500);
-            } else {
-                passwordError.textContent = "Access Denied. Invalid Passkey.";
-                passwordInput.classList.add('border-red-500');
-                setTimeout(() => {
-                    passwordError.textContent = "";
-                    passwordInput.classList.remove('border-red-500');
-                }, 2000);
-            }
-        }
-        
-        passwordSubmit.addEventListener('click', checkPassword);
-        passwordInput.addEventListener('keypress', function(event) {
-            if (event.key === 'Enter') {
-                checkPassword();
-            }
-        });
-
-        // --- DATA & DOM ELEMENTS (GLOBAL WITHIN SCOPE) ---
-        let playerData, gigData;
-        const coreStatsContainer = document.getElementById('core-stats-container');
-        const gigBoardContainer = document.getElementById('gig-board-container');
-        const systemLog = document.getElementById('system-log');
-        const currentExpEl = document.getElementById('current-exp');
-        const expBar = document.getElementById('exp-bar');
-        const statModal = document.getElementById('stat-modal');
-        const statAllocationInputs = document.getElementById('stat-allocation-inputs');
-        const spEarnedEl = document.getElementById('sp-earned');
-        const spRemainingEl = document.getElementById('sp-remaining');
-        const confirmAllocationBtn = document.getElementById('confirm-allocation-btn');
-        let currentCompletingGig = null;
-
-        // --- MAIN APPLICATION LOGIC ---
-        function initializeDashboard() {
-            playerData = {
-                level: 1, exp: 250, expToNextLevel: 1000,
-                stats: {
-                    STR: { name: 'Strength', value: 5 },
-                    END: { name: 'Endurance', value: 6 },
-                    DIS: { name: 'Discipline', value: 6 },
-                    INT: { name: 'Intellect', value: 9 },
-                    CHA: { name: 'Charisma', value: 6, dynamic: true }
+            /**
+             * Checks the entered password against the correct password.
+             * If correct, hides the overlay and displays the main content.
+             * If incorrect, shows an error message.
+             */
+            function checkPassword() {
+                const enteredPassword = passwordInput.value;
+                if (enteredPassword === correctPassword) {
+                    passwordOverlay.classList.add('transition-opacity', 'duration-500', 'opacity-0');
+                    // After transition, hide the overlay and show main content
+                    setTimeout(() => {
+                        passwordOverlay.classList.add('hidden');
+                        mainContent.classList.remove('hidden');
+                        mainContent.classList.add('opacity-100'); // Add for smooth fade-in
+                        initializeDashboard(); // Initialize dashboard components after successful login
+                    }, 500);
+                } else {
+                    passwordError.textContent = "Access Denied. Invalid Passkey.";
+                    passwordInput.classList.add('border-red-500'); // Visual feedback for incorrect password
+                    // Clear error message after a short delay
+                    setTimeout(() => {
+                        passwordError.textContent = "";
+                        passwordInput.classList.remove('border-red-500');
+                    }, 2000);
                 }
-            };
-            gigData = [
-                 { id: 'gig-01', title: "The Fighter's Cadence", priority: 'A', category: 'Main Job (NS)', objectives: [ { text: 'Perfect Attendance: Complete all 5 scheduled training sessions.', done: false }, { text: 'Punctuality Protocol: Arrive on time for every session.', done: false }, ], payout: { sp: 5, exp: 500 }, completed: false },
-                 { id: 'gig-02', title: "Foundational Forge: Marja's Combinations", priority: 'A', category: 'Main Job (NS)', timeLimit: 'By Monday, June 9th, 10:00 AM CDT', objectives: [ { text: 'Complete Phase I: Mobility Activation & Dynamic Warm-up', done: false }, { text: 'Complete Phase II: The Art of the Teep & The Roundhouse', done: false }, { text: 'Complete Phase III: Marja\'s Combinations', done: false }, { text: 'Complete Phase IV: Cool Down & Foundational Flexibility', done: false }, { text: 'Bonus: Record & review footage from Round 5', done: false }, ], payout: { sp: 7, exp: 400 }, completed: false },
-                 { id: 'gig-03', title: "Work Grind: Monday Night Shift", priority: 'C', category: 'Side Hustle (E)', objectives: [ { text: 'Arrive on time for 5:00 PM - 10:00 PM shift.', done: false }, { text: 'Complete all assigned duties.', done: false }, { text: 'Bonus: Resist impulse purchases.', done: false }, ], payout: { sp: 2, exp: 75 }, completed: false },
-                 { id: 'gig-04', title: 'The Anane Protocol: Phase 1', priority: 'A', category: 'Main Job (NS)', timeLimit: '7 Days', objectives: [ { text: '10-min dynamic stretching pre-training daily.', done: false }, { text: '15-min static stretching post-training daily.', done: false }, { text: 'Drill 50 teeps on heavy bag (3 sessions).', done: false }, { text: 'Drill 50 roundhouse kicks on heavy bag.', done: false }, { text: 'Watch one Nabil Anane fight and take notes.', done: false }, ], payout: { sp: 7, exp: 400 }, completed: false },
-                 { id: 'gig-05', title: "Work Grind: Friday Night Shift", priority: 'C', category: 'Side Hustle (E)', objectives: [ { text: 'Arrive on time for 5:00 PM - 10:00 PM shift.', done: false }, { text: 'Complete all assigned duties.', done: false }, { text: 'Bonus: Resist impulse purchases.', done: false }, ], payout: { sp: 2, exp: 75 }, completed: false },
-                 { id: 'gig-06', title: "Work Grind: Sunday Evening Shift", priority: 'C', category: 'Side Hustle (E)', objectives: [ { text: 'Arrive on time for 3:00 PM - 10:00 PM shift.', done: false }, { text: 'Complete all assigned duties.', done: false }, { text: 'Bonus: Resist impulse purchases.', done: false }, ], payout: { sp: 2, exp: 100 }, completed: false }
-            ];
-
-            renderStats();
-            renderGigs();
-            logSystemMessage("Authentication successful. System online.");
-            logSystemMessage("Baseline Build v1.0 'The Resonant Mind' loaded.");
-        }
-
-        function renderStats() {
-            coreStatsContainer.innerHTML = '';
-            for (const key in playerData.stats) {
-                const stat = playerData.stats[key];
-                const statHTML = `<div class="flex items-center justify-between"><span class="font-semibold text-white">${stat.name} (${key})</span><span class="font-bold text-lg text-cyan-400 ${stat.dynamic ? 'neon-glow-cyan' : ''} px-2 rounded">${stat.value}</span></div>`;
-                coreStatsContainer.innerHTML += statHTML;
             }
-        }
-        function renderGigs() {
-            gigBoardContainer.innerHTML = '';
-            gigData.forEach(gig => {
-                if (gig.completed) return;
-                const objectivesHTML = gig.objectives.map((obj, index) => `<label for="${gig.id}-obj-${index}" class="flex items-center space-x-3 cursor-pointer group"><input type="checkbox" id="${gig.id}-obj-${index}" data-gig-id="${gig.id}" data-obj-index="${index}" class="form-checkbox h-5 w-5 bg-gray-700 border-gray-600 text-cyan-500 rounded focus:ring-cyan-600 focus:ring-offset-gray-800"><span class="text-gray-300 group-hover:text-white transition-colors">${obj.text}</span></label>`).join('');
-                const gigHTML = `<div id="${gig.id}" class="bg-gray-900/50 p-5 rounded-lg border border-gray-700"><div class="flex flex-col sm:flex-row justify-between sm:items-start mb-3"><div><h3 class="text-lg font-bold text-white">${gig.title}</h3><div class="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-gray-400 mt-1"><span>Category: <span class="font-semibold text-cyan-400">${gig.category}</span></span>${gig.timeLimit ? `<span>Time Limit: <span class="font-semibold text-yellow-400">${gig.timeLimit}</span></span>` : ''}</div></div><span class="rank-tag rank-${gig.priority.toLowerCase()} mt-2 sm:mt-0 flex-shrink-0">${gig.priority}-Rank</span></div><div class="space-y-3 mb-4">${objectivesHTML}</div><div class="flex justify-between items-center border-t border-gray-700 pt-3"><span class="text-sm text-gray-400">Payout: <span class="font-semibold text-green-400">${gig.payout.sp} SP, ${gig.payout.exp} EXP</span></span><button data-gig-id="${gig.id}" class="complete-gig-btn bg-cyan-600 hover:bg-cyan-700 text-white font-bold py-1 px-3 text-sm rounded-md disabled:bg-gray-600 disabled:cursor-not-allowed transition-colors" disabled>Complete Gig</button></div></div>`;
-                gigBoardContainer.innerHTML += gigHTML;
+            
+            // Event listeners for password submission
+            passwordSubmit.addEventListener('click', checkPassword);
+            passwordInput.addEventListener('keypress', function(event) {
+                if (event.key === 'Enter') {
+                    checkPassword();
+                }
             });
-            addGigEventListeners();
-        }
 
-        function logSystemMessage(message) {
-            const logEntry = document.createElement('p');
-            logEntry.innerHTML = `&gt; ${message}`;
-            systemLog.appendChild(logEntry);
-            systemLog.scrollTop = systemLog.scrollHeight;
-        }
+            // --- GLOBAL DATA & DOM ELEMENTS ---
+            let playerData; // Stores player statistics and progression
+            let gigData;    // Stores active and conceptual gig information
+            const coreStatsContainer = document.getElementById('core-stats-container');
+            const gigBoardContainer = document.getElementById('gig-board-container');
+            const systemLog = document.getElementById('system-log');
+            const playerLevelEl = document.getElementById('player-level');
+            const currentExpEl = document.getElementById('current-exp');
+            const maxExpEl = document.getElementById('max-exp');
+            const expBar = document.getElementById('exp-bar');
+            const confidantsContainer = document.getElementById('confidants-container');
+            const workScheduleContainer = document.getElementById('work-schedule-container');
 
-        function addGigEventListeners() { 
-            document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => checkbox.addEventListener('change', (e) => {
-                const gig = gigData.find(g => g.id === e.target.dataset.gigId);
-                if (gig) { gig.objectives[parseInt(e.target.dataset.objIndex, 10)].done = e.target.checked; checkGigCompletion(e.target.dataset.gigId); }
-            }));
-            document.querySelectorAll('.complete-gig-btn').forEach(button => button.addEventListener('click', (e) => completeGig(e.target.dataset.gigId)));
-        }
+            const statModal = document.getElementById('stat-modal');
+            const statAllocationInputs = document.getElementById('stat-allocation-inputs');
+            const spEarnedEl = document.getElementById('sp-earned');
+            const spRemainingEl = document.getElementById('sp-remaining');
+            const confirmAllocationBtn = document.getElementById('confirm-allocation-btn');
+            let currentCompletingGig = null; // Tracks the gig being completed for stat allocation
 
-        function checkGigCompletion(gigId) {
-             const gig = gigData.find(g => g.id === gigId);
-            if (!gig) return;
-            const allDone = gig.objectives.every(obj => obj.done);
-            const completeButton = document.querySelector(`#${gigId} .complete-gig-btn`);
-            if (completeButton) {
-                if (allDone) {
-                    completeButton.disabled = false;
-                    logSystemMessage(`All objectives for <span class="text-yellow-400">${gig.title}</span> met. Awaiting confirmation.`);
-                } else { completeButton.disabled = true; }
+            // --- MAIN APPLICATION LOGIC ---
+
+            /**
+             * Initializes the dashboard by setting up player data, gig data,
+             * and rendering the initial UI components.
+             */
+            function initializeDashboard() {
+                // Initialize player data based on LDCV* and LD-PASTE HERE*
+                playerData = {
+                    level: 1, 
+                    exp: 500, // From LD-PASTE HERE* "Your total EXP is now 500 / 1000"
+                    expToNextLevel: 1000,
+                    stats: {
+                        STR: { name: 'Strength', value: 5, description: 'Governs physical power, lifting, and the impact of strikes.' },
+                        END: { name: 'Endurance', value: 6, description: 'Governs cardio, conditioning, and ability to withstand fatigue and damage.' },
+                        DIS: { name: 'Discipline', value: 6, description: 'Governs willpower, ability to stick to budget, resist bad habits, and maintain consistency.' }, // After +3 allocation from Morning Grind Buster
+                        INT: { name: 'Intellect', value: 9, description: 'Governs ability to learn, study fight film, strategize, and absorb new techniques.' }, // After +3 allocation from Morning Grind Buster
+                        CHA: { name: 'Charisma', value: 6, dynamic: true, description: 'Governs relationships, communication, and ability to build alliances. Baseline 6. +1 buff (7) when consciously using "Mask of Authenticity", -1 debuff (5) during autistic burnout states.' }
+                    }
+                };
+
+                // Confidant data extracted from LDCV* and original HTML
+                const confidantData = [
+                    { name: 'Savannah', type: 'Bond Confidant', rank: 5 },
+                    { name: 'Edgar', type: 'Training Confidant', rank: 6 },
+                    { name: 'Kru Somchai', type: 'Mentor Confidant', rank: 4 }
+                ];
+
+                // Gig data compiled from LDCV* and LD-PASTE HERE*
+                gigData = [
+                    { id: 'gig-01', title: "The Fighter's Cadence", priority: 'A', category: 'Main Job (NS)', objectives: [ { text: 'Perfect Attendance: Complete all 5 scheduled training sessions.', done: false }, { text: 'Punctuality Protocol: Arrive on time for every session.', done: false }, ], payout: { sp: 5, exp: 500 }, completed: false },
+                    { id: 'gig-02', title: "Foundational Forge: Marja's Combinations", priority: 'A', category: 'Main Job (NS)', timeLimit: 'By Monday, June 9th, 10:00 AM CDT', objectives: [ { text: 'Complete Phase I: Mobility Activation & Dynamic Warm-up', done: false }, { text: 'Complete Phase II: The Art of the Teep & The Roundhouse', done: false }, { text: 'Complete Phase III: Marja\'s Combinations', done: false }, { text: 'Complete Phase IV: Cool Down & Foundational Flexibility', done: false }, { text: 'Bonus: Record & review footage from Round 5', done: false }, ], payout: { sp: 7, exp: 400 }, completed: false },
+                    { id: 'gig-03', title: "Work Grind: Monday Night Shift", priority: 'C', category: 'Side Hustle (E)', objectives: [ { text: 'Arrive on time for 5:00 PM - 10:00 PM shift.', done: false }, { text: 'Complete all assigned duties.', done: false }, { text: 'Bonus: Resist impulse purchases.', done: false }, ], payout: { sp: 2, exp: 75 }, completed: false },
+                    { id: 'gig-04', title: "Work Grind: Friday Night Shift", priority: 'C', category: 'Side Hustle (E)', objectives: [ { text: 'Arrive on time for 5:00 PM - 10:00 PM shift.', done: false }, { text: 'Complete all assigned duties.', done: false }, { text: 'Bonus: Resist impulse purchases.', done: false }, ], payout: { sp: 2, exp: 75 }, completed: false },
+                    { id: 'gig-05', title: "Work Grind: Sunday Evening Shift", priority: 'C', category: 'Side Hustle (E)', objectives: [ { text: 'Arrive on time for 3:00 PM - 10:00 PM shift.', done: false }, { text: 'Complete all assigned duties.', done: false }, { text: 'Bonus: Resist impulse purchases.', done: false }, ], payout: { sp: 2, exp: 100 }, completed: false },
+                    { id: 'gig-06', title: "The Anane Protocol: Phase 1 - Foundation & Flexibility", priority: 'A', category: 'Main Job (NS)', timeLimit: '7 Days', objectives: [ { text: '10-min dynamic stretching pre-training daily.', done: false }, { text: '15-min static stretching post-training daily.', done: false }, { text: 'Drill 50 teeps on heavy bag (3 sessions).', done: false }, { text: 'Drill 50 roundhouse kicks on heavy bag.', done: false }, { text: 'Watch one Nabil Anane fight and take notes.', done: false }, ], payout: { sp: 7, exp: 400 }, completed: false },
+                    { id: 'gig-07', title: "Secure the Vault: Bank Account Setup", priority: 'A', category: 'Intel & Alliance (LG)', objectives: [ { text: 'Initiate bank account application.', done: false }, { text: 'Gather necessary documentation (ID, proof of address).', done: false }, { text: 'Complete account setup process.', done: false }, { text: 'Verify direct deposit functionality.', done: false }, ], payout: { sp: 5, exp: 200 }, completed: false }, // Payout estimated
+                    { id: 'gig-08', title: "Daily Grind: June 10th Maintenance", priority: 'C', category: 'Main Job (NS)', objectives: [ { text: 'Finish Dishes in Sink', done: false }, { text: 'Take Out Trash', done: false }, { text: 'Start Laundry (Passive action)', done: false }, { text: 'Clean Remme\'s Carpet & Pick Up Mom\'s Room', done: false }, { text: 'Clean Car', done: false }, { text: 'Eat & Protein Shake', done: false }, { text: 'Clean Countertops', done: false }, { text: 'Floss, Mouthwash, & Brush Teeth', done: false }, { text: 'Take Shower & Change Clothes', done: false }, { text: 'Get Ready for Work', done: false }, { text: 'Take Dogs Out One Last Time', done: false }, { text: 'Work on The Jackie (Living Document implementation)', done: false }, { text: 'Relax and Enjoy Time', done: false } ], payout: { sp: 6, exp: 250 }, completed: false }, // Payout based on "Morning Grind Buster"
+                    { id: 'gig-09', title: "Financial Recon: Statement Harvest", priority: 'A', category: 'Intel & Alliance (LG)', objectives: [ { text: 'Locate and gather all recent pay stubs/income records.', done: false }, { text: 'Compile list of all recurring monthly expenses.', done: false }, { text: 'Review past month\'s spending for discretionary habits.', done: false } ], payout: { sp: 3, exp: 150 }, completed: false }, // Payout estimated
+                    { id: 'gig-10', title: "Rem's Ride to Work", priority: 'C', category: 'Intel & Alliance (LG)', objectives: [ { text: 'Confirm Remme\'s work schedule.', done: false }, { text: 'Ensure timely transport to work.', done: false }, { text: 'Coordinate return trip if needed.', done: false } ], payout: { sp: 1, exp: 50 }, completed: false } // Payout estimated
+                ];
+
+                // Work schedule data for Rylee at Tobacco Depot for June 2025
+                const workScheduleData = [
+                    { date: 'June 9th (Monday)', shift: '5:00 PM - 10:00 PM' },
+                    { date: 'June 10th (Tuesday)', shift: 'OFF' },
+                    { date: 'June 11th (Wednesday)', shift: 'OFF' },
+                    { date: 'June 12th (Thursday)', shift: '3:00 PM - 10:00 PM' },
+                    { date: 'June 13th (Friday)', shift: '5:00 PM - 10:00 PM' },
+                    { date: 'June 14th (Saturday)', shift: '3:00 PM - 10:00 PM' },
+                    { date: 'June 15th (Sunday)', shift: '3:00 PM - 10:00 PM' },
+                    { date: 'June 16th (Monday)', shift: 'OFF' }
+                ];
+
+                renderPlayerLevelAndExp(); // Update player level and experience bar
+                renderStats();          // Render core player stats
+                renderConfidants(confidantData); // Render confidants
+                renderGigs();           // Render active gigs
+                renderWorkSchedule(workScheduleData); // Render work schedule
+
+                // Initial system log messages based on recent updates
+                logSystemMessage("Authentication successful. System online.");
+                logSystemMessage("Baseline Build v1.0 'The Resonant Mind' loaded.");
+                logSystemMessage("Chat Summary: System Refinement & The 'Isolated Grind' Payout processed.");
+                logSystemMessage("Isolated Grind Gig logged as partially complete. Awarded: 250 EXP, 3 SP.");
+                logSystemMessage("Player stats updated. Total EXP: 500 / 1000. 3 SP unallocated.");
             }
-        }
 
-        function completeGig(gigId) {
-            currentCompletingGig = gigData.find(g => g.id === gigId);
-            if (!currentCompletingGig) return;
-            currentCompletingGig.completed = true;
-            const gigElement = document.getElementById(gigId);
-            if (gigElement) {
-                gigElement.classList.add('transition-opacity', 'duration-500', 'opacity-0');
-                setTimeout(() => gigElement.remove(), 500);
+            /**
+             * Renders the player's current level and experience bar.
+             */
+            function renderPlayerLevelAndExp() {
+                playerLevelEl.textContent = playerData.level;
+                currentExpEl.textContent = playerData.exp;
+                maxExpEl.textContent = playerData.expToNextLevel;
+                const expPercentage = (playerData.exp / playerData.expToNextLevel) * 100;
+                expBar.style.width = `${expPercentage}%`;
             }
-            playerData.exp += currentCompletingGig.payout.exp;
-            document.getElementById('exp-bar').style.width = `${(playerData.exp / playerData.expToNextLevel) * 100}%`;
-            document.getElementById('current-exp').textContent = playerData.exp;
-            logSystemMessage(`Gig <span class="text-yellow-400">${currentCompletingGig.title}</span> complete. Payout awarded: <span class="text-green-400">${currentCompletingGig.payout.exp} EXP, ${currentCompletingGig.payout.sp} SP</span>.`);
-            openStatModal(currentCompletingGig.payout.sp);
-        }
 
-        function openStatModal(sp) {
-            spEarnedEl.textContent = sp;
-            spRemainingEl.textContent = sp;
-            confirmAllocationBtn.disabled = true;
-            statAllocationInputs.innerHTML = '';
-            for (const key in playerData.stats) {
-                statAllocationInputs.innerHTML += `<div class="grid grid-cols-3 items-center gap-4"><label for="stat-${key}" class="font-semibold col-span-1">${playerData.stats[key].name}</label><input type="number" id="stat-${key}" data-stat-key="${key}" min="0" value="0" class="col-span-2 form-input bg-gray-700 border-gray-600 text-white rounded w-full text-center focus:ring-cyan-500 focus:border-cyan-500"></div>`;
+            /**
+             * Renders the player's core stats dynamically into the UI.
+             */
+            function renderStats() {
+                coreStatsContainer.innerHTML = ''; // Clear existing stats
+                for (const key in playerData.stats) {
+                    const stat = playerData.stats[key];
+                    const statHTML = `
+                        <div class="flex items-center justify-between">
+                            <span class="font-semibold text-white">${stat.name} (${key})</span>
+                            <span class="font-bold text-lg text-cyan-400 ${stat.dynamic ? 'neon-glow-cyan' : ''} px-2 rounded">
+                                ${stat.value}
+                            </span>
+                        </div>
+                        <p class="text-xs text-gray-500 mt-0.5">${stat.description}</p>
+                    `;
+                    coreStatsContainer.innerHTML += statHTML;
+                }
             }
-            statModal.classList.remove('hidden');
-            const inputs = statAllocationInputs.querySelectorAll('input');
-            inputs.forEach(input => input.addEventListener('input', () => {
+
+            /**
+             * Renders the confidant data into the UI.
+             * @param {Array<Object>} confidants - An array of confidant objects.
+             */
+            function renderConfidants(confidants) {
+                confidantsContainer.innerHTML = ''; // Clear existing confidants
+                confidants.forEach(confidant => {
+                    const confidantHTML = `
+                        <div class="flex items-center justify-between">
+                            <span class="font-semibold">${confidant.name} - ${confidant.type}</span>
+                            <span class="text-sm text-cyan-400 font-mono">Rank ${confidant.rank}</span>
+                        </div>
+                    `;
+                    confidantsContainer.innerHTML += confidantHTML;
+                });
+            }
+
+            /**
+             * Renders Rylee's work schedule into the UI.
+             * @param {Array<Object>} scheduleData - An array of schedule objects.
+             */
+            function renderWorkSchedule(scheduleData) {
+                workScheduleContainer.innerHTML = ''; // Clear existing schedule
+                scheduleData.forEach(entry => {
+                    const scheduleHTML = `
+                        <p><span class="font-semibold text-white">${entry.date}:</span> <span class="${entry.shift === 'OFF' ? 'text-green-400' : 'text-yellow-400'}">${entry.shift}</span></p>
+                    `;
+                    workScheduleContainer.innerHTML += scheduleHTML;
+                });
+            }
+
+            /**
+             * Renders the active gigs onto the Gig Board.
+             */
+            function renderGigs() {
+                gigBoardContainer.innerHTML = ''; // Clear existing gigs
+                gigData.forEach(gig => {
+                    if (gig.completed) return; // Skip completed gigs
+
+                    // Generate HTML for each objective checkbox
+                    const objectivesHTML = gig.objectives.map((obj, index) => `
+                        <label for="${gig.id}-obj-${index}" class="flex items-center space-x-3 cursor-pointer group">
+                            <input type="checkbox" id="${gig.id}-obj-${index}" data-gig-id="${gig.id}" data-obj-index="${index}" class="form-checkbox h-5 w-5 bg-gray-700 border-gray-600 text-cyan-500 rounded focus:ring-cyan-600 focus:ring-offset-gray-800" ${obj.done ? 'checked' : ''}>
+                            <span class="text-gray-300 group-hover:text-white transition-colors">${obj.text}</span>
+                        </label>
+                    `).join('');
+
+                    // Construct the full Gig card HTML
+                    const gigHTML = `
+                        <div id="${gig.id}" class="bg-gray-900/50 p-5 rounded-lg border border-gray-700">
+                            <div class="flex flex-col sm:flex-row justify-between sm:items-start mb-3">
+                                <div>
+                                    <h3 class="text-lg font-bold text-white">${gig.title}</h3>
+                                    <div class="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-gray-400 mt-1">
+                                        <span>Category: <span class="font-semibold text-cyan-400">${gig.category}</span></span>
+                                        ${gig.timeLimit ? `<span>Time Limit: <span class="font-semibold text-yellow-400">${gig.timeLimit}</span></span>` : ''}
+                                    </div>
+                                </div>
+                                <span class="rank-tag rank-${gig.priority.toLowerCase()} mt-2 sm:mt-0 flex-shrink-0">${gig.priority}-Rank</span>
+                            </div>
+                            <div class="space-y-3 mb-4">
+                                ${objectivesHTML}
+                            </div>
+                            <div class="flex justify-between items-center border-t border-gray-700 pt-3">
+                                <span class="text-sm text-gray-400">Payout: <span class="font-semibold text-green-400">${gig.payout.sp} SP, ${gig.payout.exp} EXP</span></span>
+                                <button data-gig-id="${gig.id}" class="complete-gig-btn bg-cyan-600 hover:bg-cyan-700 text-white font-bold py-1 px-3 text-sm rounded-md disabled:bg-gray-600 disabled:cursor-not-allowed transition-colors" disabled>Complete Gig</button>
+                            </div>
+                        </div>
+                    `;
+                    gigBoardContainer.innerHTML += gigHTML;
+                });
+                addGigEventListeners(); // Attach event listeners after rendering gigs
+            }
+
+            /**
+             * Adds a message to the system log and scrolls to the bottom.
+             * @param {string} message - The message to log.
+             */
+            function logSystemMessage(message) {
+                const logEntry = document.createElement('p');
+                logEntry.innerHTML = `&gt; ${message}`;
+                systemLog.appendChild(logEntry);
+                systemLog.scrollTop = systemLog.scrollHeight; // Auto-scroll to latest entry
+            }
+
+            /**
+             * Attaches event listeners to gig checkboxes and complete buttons.
+             */
+            function addGigEventListeners() { 
+                // Listen for changes on any checkbox within a gig
+                document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+                    checkbox.addEventListener('change', (e) => {
+                        const gig = gigData.find(g => g.id === e.target.dataset.gigId);
+                        if (gig) {
+                            // Update objective status and check overall gig completion
+                            gig.objectives[parseInt(e.target.dataset.objIndex, 10)].done = e.target.checked;
+                            checkGigCompletion(e.target.dataset.gigId);
+                        }
+                    });
+                });
+                // Listen for clicks on "Complete Gig" buttons
+                document.querySelectorAll('.complete-gig-btn').forEach(button => {
+                    button.addEventListener('click', (e) => {
+                        completeGig(e.target.dataset.gigId);
+                    });
+                });
+            }
+
+            /**
+             * Checks if all objectives for a given gig are completed and enables/disables
+             * the "Complete Gig" button accordingly.
+             * @param {string} gigId - The ID of the gig to check.
+             */
+            function checkGigCompletion(gigId) {
+                const gig = gigData.find(g => g.id === gigId);
+                if (!gig) return; // Exit if gig not found
+
+                const allDone = gig.objectives.every(obj => obj.done);
+                const completeButton = document.querySelector(`#${gigId} .complete-gig-btn`);
+
+                if (completeButton) {
+                    if (allDone) {
+                        completeButton.disabled = false; // Enable button if all objectives are met
+                        logSystemMessage(`All objectives for <span class="text-yellow-400">${gig.title}</span> met. Awaiting confirmation.`);
+                    } else {
+                        completeButton.disabled = true; // Disable button if not all objectives are met
+                    }
+                }
+            }
+
+            /**
+             * Processes the completion of a gig, awards payout, and opens the stat allocation modal.
+             * @param {string} gigId - The ID of the gig being completed.
+             */
+            function completeGig(gigId) {
+                currentCompletingGig = gigData.find(g => g.id === gigId);
+                if (!currentCompletingGig) return; // Exit if gig not found
+
+                currentCompletingGig.completed = true; // Mark gig as completed
+                
+                // Animate removal of the gig card from the UI
+                const gigElement = document.getElementById(gigId);
+                if (gigElement) {
+                    gigElement.classList.add('transition-opacity', 'duration-500', 'opacity-0');
+                    setTimeout(() => gigElement.remove(), 500);
+                }
+
+                // Update player experience
+                playerData.exp += currentCompletingGig.payout.exp;
+                renderPlayerLevelAndExp(); // Re-render EXP bar and values
+
+                // Log gig completion and payout
+                logSystemMessage(`Gig <span class="text-yellow-400">${currentCompletingGig.title}</span> complete. Payout awarded: <span class="text-green-400">${currentCompletingGig.payout.exp} EXP, ${currentCompletingGig.payout.sp} SP</span>.`);
+                
+                // Open the stat allocation modal for SP distribution
+                openStatModal(currentCompletingGig.payout.sp);
+            }
+
+            /**
+             * Opens the stat allocation modal, populating it with input fields for each stat.
+             * @param {number} sp - The number of Stat Points to allocate.
+             */
+            function openStatModal(sp) {
+                spEarnedEl.textContent = sp;     // Display total SP earned
+                spRemainingEl.textContent = sp;  // Initialize remaining SP
+                confirmAllocationBtn.disabled = true; // Disable confirm button initially
+                statAllocationInputs.innerHTML = ''; // Clear previous inputs
+
+                // Create input fields for each player stat
+                for (const key in playerData.stats) {
+                    const stat = playerData.stats[key];
+                    statAllocationInputs.innerHTML += `
+                        <div class="grid grid-cols-3 items-center gap-4">
+                            <label for="stat-${key}" class="font-semibold col-span-1">${stat.name}</label>
+                            <input type="number" id="stat-${key}" data-stat-key="${key}" min="0" value="0" 
+                                class="col-span-2 form-input bg-gray-700 border-gray-600 text-white rounded w-full text-center 
+                                focus:ring-cyan-500 focus:border-cyan-500">
+                        </div>
+                    `;
+                }
+                statModal.classList.remove('hidden'); // Show the modal
+
+                // Add event listeners to allocation input fields
+                const inputs = statAllocationInputs.querySelectorAll('input');
+                inputs.forEach(input => input.addEventListener('input', () => {
+                    let totalAllocated = 0;
+                    inputs.forEach(i => {
+                        // Ensure input value is a number, default to 0 if empty
+                        totalAllocated += parseInt(i.value, 10) || 0; 
+                    });
+                    const remaining = sp - totalAllocated;
+                    spRemainingEl.textContent = remaining;
+
+                    // Update UI and button state based on remaining points
+                    if (remaining < 0) {
+                        spRemainingEl.classList.add('text-red-500');
+                        spRemainingEl.classList.remove('text-cyan-400');
+                        confirmAllocationBtn.disabled = true; // Cannot confirm if over-allocated
+                    } else {
+                        spRemainingEl.classList.remove('text-red-500');
+                        spRemainingEl.classList.add('text-cyan-400');
+                        confirmAllocationBtn.disabled = remaining !== 0; // Enable only if all points are allocated
+                    }
+                }));
+            }
+
+            /**
+             * Confirms stat allocation, updates player stats, and closes the modal.
+             */
+            confirmAllocationBtn.addEventListener('click', () => {
+                const inputs = statAllocationInputs.querySelectorAll('input');
                 let totalAllocated = 0;
-                inputs.forEach(i => { totalAllocated += parseInt(i.value, 10) || 0; });
-                const remaining = sp - totalAllocated;
-                spRemainingEl.textContent = remaining;
-                if (remaining < 0) { spRemainingEl.classList.add('text-red-500'); spRemainingEl.classList.remove('text-cyan-400'); confirmAllocationBtn.disabled = true; }
-                else { spRemainingEl.classList.remove('text-red-500'); spRemainingEl.classList.add('text-cyan-400'); confirmAllocationBtn.disabled = remaining !== 0; }
-            }));
-        }
+                const allocations = {}; // Store allocations for logging
 
-        confirmAllocationBtn.addEventListener('click', () => {
-            const inputs = statAllocationInputs.querySelectorAll('input');
-            let totalAllocated = 0;
-            const allocations = {};
-            inputs.forEach(input => {
-                const value = parseInt(input.value, 10) || 0;
-                if (value > 0) { allocations[input.dataset.statKey] = value; totalAllocated += value; }
-            });
-            if (totalAllocated === parseInt(spEarnedEl.textContent, 10)) {
-                let logMessage = "Stat allocation confirmed. ";
-                for (const key in allocations) {
-                    playerData.stats[key].value += allocations[key];
-                    logMessage += `+${allocations[key]} <span class="text-cyan-400">${key}</span>. `;
+                inputs.forEach(input => {
+                    const value = parseInt(input.value, 10) || 0;
+                    if (value > 0) {
+                        allocations[input.dataset.statKey] = value;
+                        totalAllocated += value;
+                    }
+                });
+
+                // Check if all earned SP have been allocated
+                if (totalAllocated === parseInt(spEarnedEl.textContent, 10)) {
+                    let logMessage = "Stat allocation confirmed. ";
+                    for (const key in allocations) {
+                        playerData.stats[key].value += allocations[key]; // Apply allocated points to stats
+                        logMessage += `+${allocations[key]} <span class="text-cyan-400">${key}</span>. `;
+                    }
+                    logSystemMessage(logMessage); // Log the allocation
+                    renderStats(); // Re-render stats display to show updated values
+                    statModal.classList.add('hidden'); // Hide the modal
+                    currentCompletingGig = null; // Reset current gig context
                 }
-                logSystemMessage(logMessage);
-                renderStats();
-                statModal.classList.add('hidden');
-                currentCompletingGig = null;
-            }
+            });
         });
-    });
     </script>
 </body>
 </html>
